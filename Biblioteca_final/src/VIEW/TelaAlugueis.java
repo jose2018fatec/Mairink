@@ -15,7 +15,7 @@ import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
 /**
- *
+ * Classe para criar a tela de cadastro de aluguéis.
  * @author Jose
  */
 public class TelaAlugueis extends javax.swing.JFrame {
@@ -25,14 +25,14 @@ public class TelaAlugueis extends javax.swing.JFrame {
     public TelaAlugueis() {
         initComponents();
         init();
-    }
+    } // Fim do método construtor
 
     private void init() {
-        listarAluguels();
+        listarAlugueis();
         carregarUsuarios();
         carregarLivros();
-        setIconImage(new ImageIcon(getClass().getResource("/images/icon.png")).getImage());
-    }
+        setIconImage(new ImageIcon(getClass().getResource("/images/icon.png")).getImage()); // definindo o ícone da janela/Frame
+    } // Fim do método init
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -79,9 +79,6 @@ public class TelaAlugueis extends javax.swing.JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
-            }
-            public void windowOpened(java.awt.event.WindowEvent evt) {
-                formWindowOpened(evt);
             }
         });
 
@@ -261,7 +258,7 @@ public class TelaAlugueis extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNovoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNovoMousePressed
-        // TODO add your handling code here:
+		// confirmando para limpar os dados dos campos
         if (JOptionPane.showConfirmDialog(null,
                 "Deseja realmente criar um novo aluguel?",
                 "Novo",
@@ -271,7 +268,7 @@ public class TelaAlugueis extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNovoMousePressed
 
     private void btnIncluirMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIncluirMousePressed
-        // TODO add your handling code here:
+        // verificando o preenchimento dos campos obrigatórios.
         if (cbNomeUsuario.getSelectedIndex() != -1 && cbNomeLivro.getSelectedIndex() != -1
                 && !txtDtDevolucao.getText().replaceAll("/", "").trim().isEmpty()) {
             Alugueis aluguel = new Alugueis();
@@ -285,10 +282,10 @@ public class TelaAlugueis extends javax.swing.JFrame {
                     "Deseja realmente incluir o aluguel?",
                     "Incluir",
                     JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                obm.incluir(aluguel);
+                obm.incluir(aluguel); // inserir o registro na tabela
 
                 limpar();
-                listarAluguels();
+                listarAlugueis();
             }
         } else {
             JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
@@ -296,7 +293,7 @@ public class TelaAlugueis extends javax.swing.JFrame {
     }//GEN-LAST:event_btnIncluirMousePressed
 
     private void btnExcluirMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExcluirMousePressed
-        // TODO add your handling code here:
+        // verificando se possui elemento selecionado na tabela de aluguéis
         if (tbAluguel.getSelectedRow() != -1) {
             Alugueis aluguel = new Alugueis();
             aluguel.setCodaluguel(Integer.parseInt(txtCodigoAluguel.getText()));
@@ -304,16 +301,16 @@ public class TelaAlugueis extends javax.swing.JFrame {
                     "Deseja realmente excluir o aluguel?",
                     "Excluir",
                     JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                obm.excluir(aluguel);
+                obm.excluir(aluguel); // excluir o registro da tabela
 
                 limpar();
-                listarAluguels();
+                listarAlugueis();
             }
         }
     }//GEN-LAST:event_btnExcluirMousePressed
 
     private void btnAlterarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAlterarMousePressed
-        // TODO add your handling code here:
+        // verificando se possui elemento selecionado na tabela de aluguéis
         if (tbAluguel.getSelectedRow() != -1) {
             Alugueis aluguel = new Alugueis();
             aluguel.setCodaluguel(Integer.parseInt(txtCodigoAluguel.getText()));
@@ -327,43 +324,44 @@ public class TelaAlugueis extends javax.swing.JFrame {
                     "Deseja realmente alterar o aluguel?",
                     "Alterar",
                     JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                obm.alterar(aluguel);
+                obm.alterar(aluguel); // altera o registro na tabela
 
                 limpar();
-                listarAluguels();
+                listarAlugueis();
             }
         }
     }//GEN-LAST:event_btnAlterarMousePressed
 
     private void btnSairMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSairMousePressed
-        // TODO add your handling code here:
+        // confirmando para fechar a janela/Frame
         if (JOptionPane.showConfirmDialog(null,
                 "Deseja realmente sair?",
                 "Sair",
                 JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-            dispose();
+            dispose(); // fecha a janela
         }
     }//GEN-LAST:event_btnSairMousePressed
 
     private void txtPesquisarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisarKeyReleased
-        // TODO add your handling code here:
+        // busca o(s) registro(s) e carrega na tabela
         ResultSet rs = obm.buscarAluguel(txtPesquisar.getText());
         carregarTabela(rs);
     }//GEN-LAST:event_txtPesquisarKeyReleased
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        // TODO add your handling code here:
+        // executar o método btnSairMousePressed, pois também serve para confirmar o fechamento da janela
         btnSairMousePressed(null);
     }//GEN-LAST:event_formWindowClosing
 
     private void tbAluguelMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbAluguelMouseReleased
-        // TODO add your handling code here:
+        // obtém o número da linha selecionada na tabela
         int linha = tbAluguel.getSelectedRow();
+        // obtém os dados nas colunas
         String codigoAluguel = tbAluguel.getModel().getValueAt(linha, 0).toString();
         String nomeusuario = tbAluguel.getModel().getValueAt(linha, 1).toString();
         String nomelivro = tbAluguel.getModel().getValueAt(linha, 2).toString();
         String dtdevolucao = tbAluguel.getModel().getValueAt(linha, 3).toString();
-
+        // define nos campos, os dados obtidos na tabela
         txtCodigoAluguel.setText(codigoAluguel);
         cbNomeUsuario.setSelectedItem(nomeusuario);
         cbNomeLivro.setSelectedItem(nomelivro);
@@ -373,14 +371,11 @@ public class TelaAlugueis extends javax.swing.JFrame {
         btnExcluir.setEnabled(true);
     }//GEN-LAST:event_tbAluguelMouseReleased
 
-    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        
-    }//GEN-LAST:event_formWindowOpened
-
-    public void listarAluguels() {
+    public void listarAlugueis() {
+	// lista o(s) registro(s) e carrega na tabela
         ResultSet rs = obm.listar();
         carregarTabela(rs);
-    }
+    } // Fim do método listarAlugueis
 
     public void carregarTabela(ResultSet rs) {
         String[] colunasTabela = new String[]{"Código", "Nome Usuário", "Nome Livro", "Data Devolução"};
@@ -400,44 +395,47 @@ public class TelaAlugueis extends javax.swing.JFrame {
         tbAluguel.getColumnModel().getColumn(3).setPreferredWidth(100);
         tbAluguel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         try {
-            rs.previous();
-            while (rs.next()) {
+            rs.previous(); // volta o cursor do ResultSet
+            while (rs.next()) { // enquanto possuir registro no ResultSet, 
+                // executa as intruções dentro do laço e passa para o próximo registro.
                 String[] dt = rs.getString("dtdevolucao").split("-");
                 modeloTabela.addRow(new String[]{
                     rs.getString(1), rs.getString(2), rs.getString(3), dt[2] + "/" + dt[1] + "/" + dt[0]});
             }
-        } catch (SQLException e) {
+        } catch (SQLException e) { // ocorreu algum erro
             JOptionPane.showMessageDialog(null, "Erro ao carregar tabela: " + e.getMessage());
         }
-    }
+    } // Fim do método carregarTabela
 
     public void carregarUsuarios() {
-        ResultSet rs = new OperacaoBancoUsuario().listar();
-        cbNomeUsuario.removeAllItems();
+        ResultSet rs = new OperacaoBancoUsuario().listar(); // lista o(s) usuário(s)
+        cbNomeUsuario.removeAllItems(); // remover todos os itens da ComboBox
         try {
-            rs.previous();
-            while (rs.next()) {
-                cbNomeUsuario.addItem(rs.getString("nome"));
+            rs.previous(); // volta o cursor do ResultSet
+            while (rs.next()) { // enquanto possuir registro no ResultSet, 
+                // executa as intruções dentro do laço e passa para o próximo registro.
+                cbNomeUsuario.addItem(rs.getString("nome")); // add item na ComboBox
             }
             cbNomeUsuario.setSelectedIndex(-1);
-        } catch (SQLException e) {
+        } catch (SQLException e) { // ocorreu algum erro
             JOptionPane.showMessageDialog(null, "Erro ao carregar usuarios: " + e.getMessage());
         }
-    }
+    } // Fim do método carregarUsuarios
 
     public void carregarLivros() {
-        ResultSet rs = new OperacaoBancoLivro().listar();
-        cbNomeLivro.removeAllItems();
+        ResultSet rs = new OperacaoBancoLivro().listar(); // lista o(s) livro(s)
+        cbNomeLivro.removeAllItems(); // remover todos os itens da ComboBox
         try {
-            rs.previous();
-            while (rs.next()) {
-                cbNomeLivro.addItem(rs.getString("nome"));
+            rs.previous(); // volta o cursor do ResultSet
+            while (rs.next()) { // enquanto possuir registro no ResultSet, 
+                // executa as intruções dentro do laço e passa para o próximo registro.
+                cbNomeLivro.addItem(rs.getString("nome")); // add item na ComboBox
             }
             cbNomeLivro.setSelectedIndex(-1);
-        } catch (SQLException e) {
+        } catch (SQLException e) { // ocorreu algum erro
             JOptionPane.showMessageDialog(null, "Erro ao carregar livros: " + e.getMessage());
         }
-    }
+    } // Fim do método carregarLivros
 
     public void limpar() {
         btnAlterar.setEnabled(false);
@@ -449,8 +447,8 @@ public class TelaAlugueis extends javax.swing.JFrame {
         txtDtDevolucao.setText(null);
         txtPesquisar.setText(null);
         tbAluguel.clearSelection();
-        cbNomeUsuario.requestFocus();//Coloca o foco(cursor) no objeto
-    }
+        cbNomeUsuario.requestFocus(); //Coloca o foco(cursor) no objeto
+    } // Fim do método limpar
 
     public static void main(String args[]) {
         /* Set the GraphiteLookAndFeel look and feel */
@@ -469,7 +467,7 @@ public class TelaAlugueis extends javax.swing.JFrame {
                 new TelaAlugueis().setVisible(true);
             }
         });
-    }
+    } // Fim do método main
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterar;
@@ -494,4 +492,5 @@ public class TelaAlugueis extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField txtDtDevolucao;
     private javax.swing.JTextField txtPesquisar;
     // End of variables declaration//GEN-END:variables
-}
+
+} // Fim da classe

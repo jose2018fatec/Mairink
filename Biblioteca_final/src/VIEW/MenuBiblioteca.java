@@ -15,7 +15,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
 
 /**
- *
+ * Classe para criar o menu do sistema.
  * @author Jose
  */
 public class MenuBiblioteca extends JImageFrame {
@@ -27,11 +27,11 @@ public class MenuBiblioteca extends JImageFrame {
     public MenuBiblioteca() {
         initComponents();
         init();
-    }
+    } // Fim do método construtor
 
     private void init() {
-        setIconImage(new ImageIcon(getClass().getResource("/images/icon.png")).getImage());
-    }
+        setIconImage(new ImageIcon(getClass().getResource("/images/icon.png")).getImage()); // definindo o ícone da janela/Frame
+    } // Fim do método init
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -164,68 +164,73 @@ public class MenuBiblioteca extends JImageFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void menuAlugueisMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuAlugueisMousePressed
-        if (alugueis != null) {
-            alugueis.dispose();
+        if (alugueis != null) { // atributo alugueis não está nulo
+            alugueis.dispose(); // Fecha a tela aluguéis
         }
 
-        alugueis = new TelaAlugueis();
-        alugueis.setVisible(true);
+        alugueis = new TelaAlugueis(); // nova instância da classe TelaAlugueis
+        alugueis.setVisible(true); // mostra a tela aluguéis
     }//GEN-LAST:event_menuAlugueisMousePressed
 
     private void menuUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuUsuariosActionPerformed
-        if (usuario == null) {
-            usuario = new TelaUsuario();
+        if (usuario == null) { // atributo usuario está nulo
+            usuario = new TelaUsuario(); // nova instância da classe TelaUsuario
         }
 
-        usuario.setVisible(true);
+        usuario.setVisible(true); // mostra a tela usuário
     }//GEN-LAST:event_menuUsuariosActionPerformed
 
     private void menuLivrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLivrosActionPerformed
-        // TODO add your handling code here:
-        if (livro == null) {
-            livro = new TelaLivro();
+        if (livro == null) { // atributo livro está nulo
+            livro = new TelaLivro(); // nova instância da classe TelaLivro
         }
 
-        livro.setVisible(true);
+        livro.setVisible(true); // mostra a tela livro
     }//GEN-LAST:event_menuLivrosActionPerformed
 
     private void menuSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSairActionPerformed
-        // TODO add your handling code here:
+        // confirmando para fechar o programa
         if (JOptionPane.showConfirmDialog(null,
                 "Deseja realmente sair?",
                 "Sair",
                 JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-            System.exit(0);
+            System.exit(0); // fecha o programa
         }
     }//GEN-LAST:event_menuSairActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        // TODO add your handling code here:
+        // executar o método menuSairActionPerformed, pois também serve para confirmar a finalização do programa
         menuSairActionPerformed(null);
     }//GEN-LAST:event_formWindowClosing
 
     private void menuLivrosPorAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLivrosPorAutorActionPerformed
+	// gerar o relatório de livros por autor
         gerarRelatorio("src/RELATORIO/LivrosPorAutor.jasper", "Relatório de Livros por Autor");
     }//GEN-LAST:event_menuLivrosPorAutorActionPerformed
 
     private void menuAlugueisPorUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAlugueisPorUsuarioActionPerformed
+	// gerar o relatório de aluguéis por usuário
         gerarRelatorio("src/RELATORIO/AlugueisPorUsuario.jasper", "Relatório de Aluguéis por Usuário");
     }//GEN-LAST:event_menuAlugueisPorUsuarioActionPerformed
 
+    // Método para gerar um relatório com o JasperReport
     private void gerarRelatorio(String sourceFileName, String title) {
         try {
             Connection con = new ConexaoBD().obterConexao();
-            HashMap map = new HashMap<>();
-            JasperReport jasperReport = (JasperReport)JRLoader.loadObjectFromFile(sourceFileName);
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, map, con);
-            JasperViewer jrviewer = new JasperViewer(jasperPrint, false);
-            jrviewer.setTitle(title);
-            jrviewer.setExtendedState(MAXIMIZED_BOTH);
-            jrviewer.setVisible(true);
-        } catch (JRException ex) {
+            HashMap map = new HashMap<>(); // HashMap para passar como parâmetro para o JasperFillManager.fillReport, 
+            // onde indica os valores dos parâmetros para gerar o relatório, definidos no JasperStudio, conforme os nomes dados será informado no nome da key do HashMap
+            JasperReport jasperReport = (JasperReport)JRLoader.loadObjectFromFile(sourceFileName); // carregar o arquivo do relatório, indicado pelo seu caminho dentro do projeto
+            // Ex.: "src/RELATORIO/AlugueisPorUsuario.jasper"
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, map, con); // aqui é preenchido o relatório com os dados do banco, informando o relatório, 
+            // que é do tipo JasperReport, o Map (HashMap) com os parâmetros definido para gerar o relatório e a conexão (Connection) com o MySQL.
+            JasperViewer jrviewer = new JasperViewer(jasperPrint, false); // variável jrviewer, do tipo JasperViewer, recebe uma nova instância da classe JasperViewer.
+            jrviewer.setTitle(title); // define o título da janela do relatório
+            jrviewer.setExtendedState(MAXIMIZED_BOTH); // definindo como tela cheia (janela expandida na horizontal e vertical)
+            jrviewer.setVisible(true); // mostra o relatório, JasperViewer.
+        } catch (JRException ex) { // erro ao gerar o relatório
             System.err.println("Error: " + ex.getMessage());
         }
-    }
+    } // Fim do método gerarRelatorio
 
     /**
      * @param args the command line arguments
@@ -247,7 +252,7 @@ public class MenuBiblioteca extends JImageFrame {
                 new MenuBiblioteca().setVisible(true);
             }
         });
-    }
+    } // Fim do método main
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
@@ -268,4 +273,4 @@ public class MenuBiblioteca extends JImageFrame {
     private javax.swing.JMenuItem menuUsuarios;
     // End of variables declaration//GEN-END:variables
 
-}
+} // Fim da classe

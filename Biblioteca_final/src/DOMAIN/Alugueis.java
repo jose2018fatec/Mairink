@@ -2,8 +2,13 @@ package DOMAIN;
 
 import java.sql.Date;
 
+/**
+ * Classe para criar objeto com os valores do campo de um registro da tabela alugueis do banco de dados.
+ * @author Jose
+ */
 public class Alugueis {
 
+	// Atributos da entidade Alugueis
     private Integer codaluguel;
     private String nomeusuario;
     private String nomelivro;
@@ -46,4 +51,4 @@ public class Alugueis {
         return "Aluguel: [codaluguel=" + codaluguel + ", nomeusuario=" + nomeusuario + ", nomelivro=" + nomelivro + ", dtdevolucao=" + dtdevolucao + "]";
     }
     
-}
+} // Fim da classe

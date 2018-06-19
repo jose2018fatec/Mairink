@@ -13,7 +13,7 @@ import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
 /**
- *
+ * Classe para criar a tela de cadastro de livros.
  * @author Jose
  */
 public class TelaLivro extends javax.swing.JFrame {
@@ -25,8 +25,8 @@ public class TelaLivro extends javax.swing.JFrame {
     public TelaLivro() {
         initComponents();
         listarLivros();
-        setIconImage(new ImageIcon(getClass().getResource("/images/icon.png")).getImage());
-    }
+        setIconImage(new ImageIcon(getClass().getResource("/images/icon.png")).getImage()); // definindo o ícone da janela/Frame
+    } // Fim do método construtor
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -234,7 +234,7 @@ public class TelaLivro extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNovoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNovoMousePressed
-        // TODO add your handling code here:
+        // confirmando para limpar os dados dos campos
         if (JOptionPane.showConfirmDialog(null,
                 "Deseja realmente criar um novo livro?",
                 "Novo",
@@ -244,7 +244,7 @@ public class TelaLivro extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNovoMousePressed
 
     private void btnIncluirMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIncluirMousePressed
-        // TODO add your handling code here:
+        // verificando o preenchimento dos campos obrigatórios.
         if (!txtNome.getText().trim().isEmpty() && !txtAutor.getText().trim().isEmpty()) {
             Livros livro = new Livros();
             livro.setNome(txtNome.getText().trim());
@@ -253,7 +253,7 @@ public class TelaLivro extends javax.swing.JFrame {
                     "Deseja realmente incluir o livro?",
                     "Incluir",
                     JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                ob.incluir(livro);
+                ob.incluir(livro); // inserir o registro na tabela
 
                 limpar();
                 listarLivros();
@@ -264,7 +264,7 @@ public class TelaLivro extends javax.swing.JFrame {
     }//GEN-LAST:event_btnIncluirMousePressed
 
     private void btnExcluirMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExcluirMousePressed
-        // TODO add your handling code here:
+        // verificando se possui elemento selecionado na tabela de livros
         if (tbLivro.getSelectedRow() != -1) {
             Livros livro = new Livros();
             livro.setCodlivro(Integer.parseInt(txtCodigoLivro.getText()));
@@ -272,7 +272,7 @@ public class TelaLivro extends javax.swing.JFrame {
                     "Deseja realmente excluir o livro?",
                     "Excluir",
                     JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                ob.excluir(livro);
+                ob.excluir(livro); // excluir o registro da tabela
 
                 limpar();
                 listarLivros();
@@ -281,7 +281,7 @@ public class TelaLivro extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExcluirMousePressed
 
     private void btnAlterarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAlterarMousePressed
-        // TODO add your handling code here:
+        // verificando se possui elemento selecionado na tabela de livros
         if (tbLivro.getSelectedRow() != -1) {
             Livros livro = new Livros();
             livro.setCodlivro(Integer.parseInt(txtCodigoLivro.getText()));
@@ -291,7 +291,7 @@ public class TelaLivro extends javax.swing.JFrame {
                     "Deseja realmente alterar o livro?",
                     "Alterar",
                     JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                ob.alterar(livro);
+                ob.alterar(livro); // altera o registro na tabela
 
                 limpar();
                 listarLivros();
@@ -300,33 +300,34 @@ public class TelaLivro extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAlterarMousePressed
 
     private void btnSairMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSairMousePressed
-        // TODO add your handling code here:
+        // confirmando para fechar a janela/Frame
         if (JOptionPane.showConfirmDialog(null,
                 "Deseja realmente sair?",
                 "Sair",
                 JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-            dispose();
+            dispose(); // fecha a janela
         }
     }//GEN-LAST:event_btnSairMousePressed
 
     private void txtPesquisarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisarKeyReleased
-        // TODO add your handling code here:
+        // busca o(s) registro(s) e carrega na tabela
         ResultSet rs = ob.buscarLivroNome(txtPesquisar.getText());
         carregarTabela(rs);
     }//GEN-LAST:event_txtPesquisarKeyReleased
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        // TODO add your handling code here:
+        // executar o método btnSairMousePressed, pois também serve para confirmar o fechamento da janela
         btnSairMousePressed(null);
     }//GEN-LAST:event_formWindowClosing
 
     private void tbLivroMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbLivroMouseReleased
-        // TODO add your handling code here:
+        // obtém o número da linha selecionada na tabela
         int linha = tbLivro.getSelectedRow();
+		// obtém os dados nas colunas
         String codigoLivro = tbLivro.getModel().getValueAt(linha, 0).toString();
         String nome = tbLivro.getModel().getValueAt(linha, 1).toString();
         String autor = tbLivro.getModel().getValueAt(linha, 2).toString();
-
+		// define nos campos, os dados obtidos na tabela
         txtCodigoLivro.setText(codigoLivro);
         txtNome.setText(nome);
         txtAutor.setText(autor);
@@ -336,9 +337,10 @@ public class TelaLivro extends javax.swing.JFrame {
     }//GEN-LAST:event_tbLivroMouseReleased
 
     public void listarLivros() {
+        // lista o(s) registro(s) e carrega na tabela
         ResultSet rs = ob.listar();
         carregarTabela(rs);
-    }
+    } // Fim do método listarLivros
 
     public void carregarTabela(ResultSet rs) {
         String[] colunasTabela = new String[]{"Código", "Nome", "Autor"};
@@ -357,15 +359,16 @@ public class TelaLivro extends javax.swing.JFrame {
         tbLivro.getColumnModel().getColumn(2).setPreferredWidth(width);
         tbLivro.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         try {
-            rs.previous();
-            while (rs.next()) {
+            rs.previous(); // volta o cursor do ResultSet
+            while (rs.next()) { // enquanto possuir registro no ResultSet, 
+                // executa as intruções dentro do laço e passa para o próximo registro.
                 modeloTabela.addRow(new String[]{
                     rs.getString(1), rs.getString(2), rs.getString(3)});
             }
-        } catch (SQLException e) {
+        } catch (SQLException e) { // ocorreu algum erro
             JOptionPane.showMessageDialog(null, "Erro ao carregar tabela: " + e.getMessage());
         }
-    }
+    } // Fim do método carregarTabela
 
     public void limpar() {
         btnAlterar.setEnabled(false);
@@ -375,8 +378,8 @@ public class TelaLivro extends javax.swing.JFrame {
         txtAutor.setText(null);
         txtPesquisar.setText(null);
         tbLivro.clearSelection();
-        txtNome.requestFocus();//Coloca o foco(cursor) no objeto
-    }
+        txtNome.requestFocus(); // Coloca o foco(cursor) no objeto
+    } // Fim do método limpar|
 
     public static void main(String args[]) {
         /* Set the GraphiteLookAndFeel look and feel */
@@ -395,7 +398,7 @@ public class TelaLivro extends javax.swing.JFrame {
                 new TelaLivro().setVisible(true);
             }
         });
-    }
+    } // Fim do método main
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterar;
@@ -418,4 +421,5 @@ public class TelaLivro extends javax.swing.JFrame {
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtPesquisar;
     // End of variables declaration//GEN-END:variables
-}
+
+} // Fim da classe

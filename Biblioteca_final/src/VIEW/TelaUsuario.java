@@ -14,7 +14,7 @@ import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
 /**
- *
+ * Classe para criar a tela de cadastro de usuários.
  * @author Jose
  */
 public class TelaUsuario extends javax.swing.JFrame {
@@ -25,9 +25,13 @@ public class TelaUsuario extends javax.swing.JFrame {
 
     public TelaUsuario() {
         initComponents();
+        init();
+    } // Fim do método construtor
+
+    private void init() {
         listarUsuarios();
-        setIconImage(new ImageIcon(getClass().getResource("/images/icon.png")).getImage());
-    }
+        setIconImage(new ImageIcon(getClass().getResource("/images/icon.png")).getImage()); // definindo o ícone da janela/Frame
+    } // Fim do método init
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -223,7 +227,7 @@ public class TelaUsuario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNovoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNovoMousePressed
-        // TODO add your handling code here:
+        // confirmando para limpar os dados dos campos
         if (JOptionPane.showConfirmDialog(null,
                 "Deseja realmente criar um novo usuário?",
                 "Novo",
@@ -233,7 +237,7 @@ public class TelaUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNovoMousePressed
 
     private void btnIncluirMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIncluirMousePressed
-        // TODO add your handling code here:
+        // verificando o preenchimento dos campos obrigatórios.
         if (!txtNome.getText().trim().isEmpty()) {
             Usuario usuario = new Usuario();
             usuario.setNome(txtNome.getText().trim());
@@ -241,7 +245,7 @@ public class TelaUsuario extends javax.swing.JFrame {
                     "Deseja realmente incluir o usuário?",
                     "Incluir",
                     JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                ob.incluir(usuario);
+                ob.incluir(usuario); // inserir o registro na tabela
 
                 limpar();
                 listarUsuarios();
@@ -252,7 +256,7 @@ public class TelaUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnIncluirMousePressed
 
     private void btnExcluirMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExcluirMousePressed
-        // TODO add your handling code here:
+        // verificando se possui elemento selecionado na tabela de usuários
         if (tbUsuario.getSelectedRow() != -1) {
             Usuario a = new Usuario();
             a.setCodusuario(Integer.parseInt(txtCodigoUsuario.getText()));
@@ -260,7 +264,7 @@ public class TelaUsuario extends javax.swing.JFrame {
                     "Deseja realmente excluir o usuário?",
                     "Excluir",
                     JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                ob.excluir(a);
+                ob.excluir(a); // excluir o registro da tabela
 
                 limpar();
                 listarUsuarios();
@@ -269,7 +273,7 @@ public class TelaUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExcluirMousePressed
 
     private void btnAlterarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAlterarMousePressed
-        // TODO add your handling code here:
+        // verificando se possui elemento selecionado na tabela de usuários
         if (tbUsuario.getSelectedRow() != -1) {
             Usuario a = new Usuario();
             a.setCodusuario(Integer.parseInt(txtCodigoUsuario.getText()));
@@ -278,7 +282,7 @@ public class TelaUsuario extends javax.swing.JFrame {
                     "Deseja realmente alterar o usuário?",
                     "Alterar",
                     JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                ob.alterar(a);
+                ob.alterar(a); // alterar o registro na tabela
 
                 limpar();
                 listarUsuarios();
@@ -287,32 +291,33 @@ public class TelaUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAlterarMousePressed
 
     private void btnSairMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSairMousePressed
-        // TODO add your handling code here:
+        // confirmando para fechar a janela/Frame
         if (JOptionPane.showConfirmDialog(null,
                 "Deseja realmente sair?",
                 "Sair",
                 JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-            dispose();
+            dispose(); // fecha a janela
         }
     }//GEN-LAST:event_btnSairMousePressed
 
     private void txtPesquisarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisarKeyReleased
-        // TODO add your handling code here:
+        // busca o(s) registro(s) e carrega na tabela
         ResultSet rs = ob.buscarUsuarioNome(txtPesquisar.getText());
         carregarTabela(rs);
     }//GEN-LAST:event_txtPesquisarKeyReleased
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        // TODO add your handling code here:
+        // executar o método btnSairMousePressed, pois também serve para confirmar o fechamento da janela
         btnSairMousePressed(null);
     }//GEN-LAST:event_formWindowClosing
 
     private void tbUsuarioMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbUsuarioMouseReleased
-        // TODO add your handling code here:
+        // obtém o número da linha selecionada na tabela
         int linha = tbUsuario.getSelectedRow();
+        // obtém os dados nas colunas
         String codigoUsuario = tbUsuario.getModel().getValueAt(linha, 0).toString();
         String nome = tbUsuario.getModel().getValueAt(linha, 1).toString();
-
+        // define nos campos, os dados obtidos na tabela
         txtCodigoUsuario.setText(codigoUsuario);
         txtNome.setText(nome);
 
@@ -321,9 +326,10 @@ public class TelaUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_tbUsuarioMouseReleased
 
     public void listarUsuarios() {
+        // lista o(s) registro(s) e carrega na tabela
         ResultSet rs = ob.listar();
         carregarTabela(rs);
-    }
+    } // Fim do método listarUsuarios
 
     public void carregarTabela(ResultSet rs) {
         String[] colunasTabela = new String[]{"Código", "Nome"};
@@ -341,15 +347,16 @@ public class TelaUsuario extends javax.swing.JFrame {
         tbUsuario.getColumnModel().getColumn(1).setPreferredWidth(width);
         tbUsuario.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         try {
-            rs.previous();
-            while (rs.next()) {
+            rs.previous(); // volta o cursor do ResultSet
+            while (rs.next()) { // enquanto possuir registro no ResultSet, 
+                // executa as intruções dentro do laço e passa para o próximo registro.
                 modeloTabela.addRow(new String[]{
                     rs.getString(1), rs.getString(2)});
             }
-        } catch (SQLException e) {
+        } catch (SQLException e) { // ocorreu algum erro
             JOptionPane.showMessageDialog(null, "Erro ao carregar tabela: " + e.getMessage());
         }
-    }
+    } // Fim do método carregarTabela
 
     public void limpar() {
         btnAlterar.setEnabled(false);
@@ -358,8 +365,8 @@ public class TelaUsuario extends javax.swing.JFrame {
         txtNome.setText(null);
         txtPesquisar.setText(null);
         tbUsuario.clearSelection();
-        txtNome.requestFocus();//Coloca o foco(cursor) no objeto
-    }
+        txtNome.requestFocus(); // Coloca o foco(cursor) no objeto
+    } // Fim do método limpar
 
     public static void main(String args[]) {
         /* Set the GraphiteLookAndFeel look and feel */
@@ -378,7 +385,7 @@ public class TelaUsuario extends javax.swing.JFrame {
                 new TelaUsuario().setVisible(true);
             }
         });
-    }
+    } // Fim do método main
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterar;
@@ -399,4 +406,5 @@ public class TelaUsuario extends javax.swing.JFrame {
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtPesquisar;
     // End of variables declaration//GEN-END:variables
-}
+
+} // Fim da classe

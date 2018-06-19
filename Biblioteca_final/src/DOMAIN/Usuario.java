@@ -1,11 +1,12 @@
 package DOMAIN;
 
 /**
- *
+ * Classe para criar objeto com os valores do campo de um registro da tabela usuario do banco de dados.
  * @author Jose
  */
 public class Usuario {
 
+	// Atributos da entidade Usuario
     private Integer codusuario;
     private String nome;
 
@@ -30,4 +31,4 @@ public class Usuario {
         return "Usuário: [codusuario=" + codusuario + ", nome=" + nome + "]";
     }
 
-}
+} // Fim da classe

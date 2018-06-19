@@ -1,7 +1,12 @@
 package DOMAIN;
 
+/**
+ * Classe para criar objeto com os valores do campo de um registro da tabela livros do banco de dados.
+ * @author Jose
+ */
 public class Livros {
 
+	// Atributos da entidade Livros
     private Integer codlivro;
     private String nome;
     private String autor;
@@ -35,4 +40,4 @@ public class Livros {
         return "Livro: [codlivro=" + codlivro + ", nome=" + nome + ", autor=" + autor + "]";
     }
 
-}
+} // Fim da classe
